@@ -8,20 +8,29 @@ import { FaUser, FaHome, FaTruck } from "react-icons/fa";
 import { BsFillCupHotFill } from "react-icons/bs";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
-let isTransactions = false;
-if (window.Location.pathname == "/transactions") {
-    isTransactions = true;
-} else {
-    isTransactions = false;
-}
-console.log(window.location.pathname);
+const Button = ({ href, icon }) => {
+    const pathname = usePathname();
+    return (
+        <li>
+            <motion.a
+                href={href}
+                // initial={{ x: isPath 8 : 0 }}
+                whileHover={{ x: 8 }}
+                whileFocus={{ x: 8 }}
+                whileTap={{ scale: 0.9 }}
+                // className="flex hover:bg-slate-700 rounded-xl py-2"
+                className={`flex hover:bg-slate-700 rounded-xl py-2
+                ${pathname === href ? "bg-sushi" : "bg-dark"}`}
+            >
+                {icon}
+            </motion.a>
+        </li>
+    );
+};
 
 const Sidebar = () => {
-    // if (window.location.pathname == "/trancations") {
-    // }
-    // const [isPath, setIsPath] = useState(false);
-
     return (
         <div className="m-4 h-[calc(100vh-2rem-2px)] w-20 bg-dark rounded-xl">
             <aside>
@@ -36,62 +45,39 @@ const Sidebar = () => {
                 <div className="bg-slate-600 w-2/3 h-[1px] mx-auto" />
                 {/* sidebar buttons */}
                 <ul className="flex flex-col p-4 gap-2 text-sm font-semibold text-dark">
-                    <li>
-                        <motion.a
-                            href="/"
-                            initial={{ x: isTransactions ? 0 : 8 }}
-                            whileHover={{ x: 2 }}
-                            whileFocus={{ x: 2 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="flex hover:bg-slate-700 rounded-xl py-2"
-                        >
-                            <FaHome className="mx-auto w-4 h-4 text-light" />
-                        </motion.a>
-                    </li>
-                    <li>
-                        <motion.a
-                            href="/transactions"
-                            whileHover={{ x: 2 }}
-                            whileFocus={{ x: 2 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="flex hover:bg-slate-700 rounded-xl py-2"
-                        >
+                    <Button
+                        href="/"
+                        icon={<FaHome className="mx-auto w-4 h-4 text-light" />}
+                    />
+                    <Button
+                        href="/transactions"
+                        icon={
                             <GrTransaction className="mx-auto w-4 h-4 text-light" />
-                        </motion.a>
-                    </li>
-                    <li>
-                        <a
-                            href="/items"
-                            className="flex hover:bg-slate-700 rounded-xl py-2"
-                        >
+                        }
+                    />
+                    <Button
+                        href="/items"
+                        icon={
                             <RiCupFill className="mx-auto w-4 h-4 text-light" />
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/user"
-                            className="flex hover:bg-slate-700 rounded-xl py-2"
-                        >
-                            <FaUser className="mx-auto w-4 h-4 text-light" />
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/supplier"
-                            className="flex hover:bg-slate-700 rounded-xl py-2"
-                        >
+                        }
+                    />
+                    <Button
+                        href="/users"
+                        icon={<FaUser className="mx-auto w-4 h-4 text-light" />}
+                    />
+                    <Button
+                        href="/suppliers"
+                        icon={
                             <FaTruck className="mx-auto w-4 h-4 text-light" />
-                        </a>
-                    </li>
+                        }
+                    />
                     <div className="bg-slate-600 w-2/3 h-[1px] mx-auto" />
-                    <li>
-                        <a
-                            href="/supplier"
-                            className="flex hover:bg-slate-700 rounded-xl py-2"
-                        >
+                    <Button
+                        href="#"
+                        icon={
                             <RiLogoutCircleLine className="mx-auto w-4 h-4 text-light" />
-                        </a>
-                    </li>
+                        }
+                    />
                 </ul>
                 {/* sidebar buttons end*/}
             </aside>
